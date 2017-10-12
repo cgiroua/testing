@@ -2,17 +2,17 @@ sudo: required
 
 services:
   - docker
-  - postgresql
 
 
 env:
   - DOCKER_TAG=latest
 
 before_script:
-  - docker version
+  - docker run -d -p 5433:5432 --name postgres postgres
 
 script:
   - sudo ss -lntp
+  - sudo docker ps
 
 after_success:
   - echo "Test complete"
