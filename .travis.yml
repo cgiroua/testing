@@ -9,7 +9,7 @@ env:
 
 before_script:
   - docker run -d -p 5433:5432 --name postgres postgres
-  - docker run -d --name ubuntu ubuntu
+  - docker run -d --name ubuntu ubuntu bash -c "sleep 60"
 
 env:
   - HOST=$(/sbin/ip route|awk '/default/ { print $3 }')
