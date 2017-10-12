@@ -11,10 +11,13 @@ before_script:
   - docker run -d -p 5433:5432 --name postgres postgres
   - docker run -d --name ubuntu ubuntu
 
+env:
+  - HOST=$(/sbin/ip route|awk '/default/ { print $3 }')
+
 script:
   - sudo ss -lntp
   - sudo docker ps
-  - docker exec ubuntu curl -v $(/sbin/ip route|awk '/default/ { print $3 }'):5433
+  - docker exec ubuntu curl -v $HOST:5433
 
 after_success:
   - echo "Test complete"
