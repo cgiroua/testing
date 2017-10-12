@@ -13,6 +13,7 @@ before_script:
 
 env:
   - HOST=$(/sbin/ip route|awk '/default/ { print $3 }')
+  - CONTAINER=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres)
 
 script:
   - sudo ss -lntp
@@ -20,6 +21,8 @@ script:
   - sudo iptables-save
   - sudo docker ps
 #  - docker exec ubuntu bash -c "apt-get -y update && apt -y install curl && curl -v $HOST:5433"
+  - docker exec ubuntu bash -c "apt-get -y update && apt -y install curl && curl -v $CONTAINER:5433"
+  - docker exec ubuntu bash -c "curl -v $CONTAINER:5432"
 
 after_success:
   - echo "Test complete"
