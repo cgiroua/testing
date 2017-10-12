@@ -1,0 +1,18 @@
+sudo: required
+
+services:
+  - docker
+  - postgresql
+
+
+env:
+  - DOCKER_TAG=latest
+
+before_script:
+  - docker version
+
+script:
+  - sudo ss -lntp
+
+after_success:
+  - echo "Test complete"
