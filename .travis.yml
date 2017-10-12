@@ -11,9 +11,9 @@ before_script:
   - docker run -d -p 5433:5432 --name postgres postgres
   - docker run -d --name ubuntu ubuntu bash -c "sleep 60"
 
-env:
-  - HOST=$(/sbin/ip route|awk '/default/ { print $3 }')
-  - CONTAINER=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres)
+#env:
+  #- HOST=$(/sbin/ip route|awk '/default/ { print $3 }')
+  #- CONTAINER=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres)
 
 script:
   - sudo ss -lntp
@@ -21,6 +21,7 @@ script:
   - sudo iptables-save
   - sudo docker ps
 #  - docker exec ubuntu bash -c "apt-get -y update && apt -y install curl && curl -v $HOST:5433"
+  - export CONTAINER=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres)
   - docker exec ubuntu bash -c "apt-get -y update && apt -y install curl && curl -v $CONTAINER:5433"
   - docker exec ubuntu bash -c "curl -v $CONTAINER:5432"
 
