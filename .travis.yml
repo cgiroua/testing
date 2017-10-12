@@ -16,9 +16,9 @@ env:
 
 script:
   - sudo ss -lntp
-  - iptables-save
+  - iptables -L
   - sudo docker ps
-  - docker exec ubuntu bash -c "apt-get update && apt install curl && curl -v $HOST:5433"
+  - docker exec ubuntu bash -c "apt-get -y update && apt -y install curl && curl -v $HOST:5433"
 
 after_success:
   - echo "Test complete"
